@@ -1,11 +1,20 @@
 import React from 'react';
 import { useQuery, gql } from '@apollo/client';
 
+
+export const createMessageMutation = gql `
+mutation courseCreate($book : String){
+   courseCreate(input: {book:$book}){
+      book
+      id
+    }
+}
+`
+
 const Courses_query = gql`
   query AllCourses{
-    Course {
-      total
-      Best
+    course {
+        BookName
     }
   }
 `;
@@ -15,25 +24,24 @@ export default function Courses() {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
-       const {Course}= data;
-       console.log(Course);
+       const {course}= data;
+       console.log(course);
   return (
       <>
        <h1>Course List</h1>
        {
-           Course.map((course,key)=>{
-              return (
-                  <div key={key}>
-                 <h6 >{course.Best} </h6>
-                 <h1>{course.total}</h1>
-                
-                </div>
-                
+         course.map((c,key)=>{
+                 return(
+                   <div key={key}>
+                        <h4>{c.BookName}</h4>
+                        
 
-              );
-           })
+                     </div>
+
+                 );
+                
+         })
        }
-
      
       </>
 
